@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Course Prerequisites",
+  "description": "Recorded prerequisite and related relations. Formal prerequisites must remain empty.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "repository",
+    "source_commit",
+    "definition",
+    "foundations",
+    "confirmed_prerequisites",
+    "related",
+    "unconfirmed",
+    "unmapped_references"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string"},
+    "repository": {"type": "string"},
+    "source_commit": {"type": "string"},
+    "definition": {"type": "object"},
+    "foundations": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/foundation"}
+    },
+    "confirmed_prerequisites": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "related": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/relation"}
+    },
+    "unconfirmed": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/relation"}
+    },
+    "unmapped_references": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/unmapped_reference"}
+    }
+  },
+  "definitions": {
+    "foundation": {
+      "type": "object",
+      "required": ["id", "text", "source_files", "evidence", "confidence"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string"},
+        "text": {"type": "string"},
+        "source_files": {"type": "array", "items": {"type": "string"}},
+        "evidence": {"type": "string"},
+        "confidence": {"type": "string"}
+      }
+    },
+    "relation": {
+      "type": "object",
+      "required": [
+        "id",
+        "target",
+        "prerequisite",
+        "direction",
+        "relation_type",
+        "is_confirmed_prerequisite",
+        "teaching_order_status",
+        "evidence",
+        "source_files",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string"},
+        "target": {"type": "string"},
+        "prerequisite": {"type": "string"},
+        "direction": {"type": "string"},
+        "relation_type": {"enum": ["related", "unconfirmed"]},
+        "is_confirmed_prerequisite": {"const": false},
+        "teaching_order_status": {"type": "string"},
+        "evidence": {"type": "string"},
+        "source_files": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"type": "string"}
+      }
+    },
+    "unmapped_reference": {
+      "type": "object",
+      "required": ["id", "mentioned_entity", "mentioned_in", "evidence", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string"},
+        "mentioned_entity": {"type": "string"},
+        "mentioned_in": {"type": "array", "items": {"type": "string"}},
+        "evidence": {"type": "string"},
+        "status": {"type": "string"}
+      }
+    }
+  }
+}
+
