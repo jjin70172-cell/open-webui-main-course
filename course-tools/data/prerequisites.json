@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.0",
+  "repository": "python-design-pattern-rag",
+  "source_commit": "0bc24c7",
+  "definition": {
+    "confirmed_prerequisites": "No formal prerequisite edge is stated anywhere in the repository; this list must remain empty.",
+    "related_meaning": "Explicit comparison, alternative, or confusion relationships found in labs/docs.",
+    "unconfirmed_meaning": "Candidate prerequisite edges that are plausible from comparison or lab order but are not stated as required by the source."
+  },
+  "foundations": [
+    {
+      "id": "foundation-python-familiarity",
+      "text": "basic familiarity with python programming",
+      "source_files": ["ollama/AdditionalPrompts.txt"],
+      "evidence": "The intended audience are the general public assuming at least a 10th grade education/reading level and a basic familiarity with python programming.",
+      "confidence": "confirmed"
+    }
+  ],
+  "confirmed_prerequisites": [],
+  "related": [
+    {
+      "id": "rel-factory-method-abstract-factory",
+      "target": "lab-15-factory-method",
+      "prerequisite": "lab-11-abstract-factory",
+      "direction": "undirected",
+      "relation_type": "related",
+      "is_confirmed_prerequisite": false,
+      "teaching_order_status": "unconfirmed",
+      "evidence": "Factory Method creates one product via inheritance; Abstract Factory creates families via composition.",
+      "source_files": ["labs/creational_factory.md", "labs/creational_abstract_factory.md"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "rel-borg-singleton",
+      "target": "lab-12-borg",
+      "prerequisite": "lab-18-singleton",
+      "direction": "undirected",
+      "relation_type": "related",
+      "is_confirmed_prerequisite": false,
+      "teaching_order_status": "unconfirmed",
+      "evidence": "Compare Borg with Singleton: shared state versus single identity.",
+      "source_files": ["labs/creational_borg.md", "docs/creational_borg.md"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "rel-global-object-singleton",
+      "target": "lab-25-global-object",
+      "prerequisite": "lab-18-singleton",
+      "direction": "undirected",
+      "relation_type": "related",
+      "is_confirmed_prerequisite": false,
+      "teaching_order_status": "unconfirmed",
+      "evidence": "The Global Object pattern is a lightweight alternative to enforced singletons or dependency injection.",
+      "source_files": ["labs/structural_global_object.md", "docs/structural_global_object.md"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "rel-chaining-builder",
+      "target": "lab-14-chaining",
+      "prerequisite": "lab-13-builder",
+      "direction": "undirected",
+      "relation_type": "related",
+      "is_confirmed_prerequisite": false,
+      "teaching_order_status": "unconfirmed",
+      "evidence": "The lab is titled Method Chaining / Fluent Builder and builds a PizzaBuilder with fluent configuration.",
+      "source_files": ["labs/creational_chaining.md", "docs/creational_chaining.md"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "rel-state-strategy",
+      "target": "lab-07-state",
+      "prerequisite": "lab-08-strategy",
+      "direction": "undirected",
+      "relation_type": "related",
+      "is_confirmed_prerequisite": false,
+      "teaching_order_status": "unconfirmed",
+      "evidence": "States transition automatically as part of the workflow; strategies are usually chosen by the client.",
+      "source_files": ["labs/behavioral_state.md", "labs/behavioral_strategy.md"],
+      "confidence": "confirmed"
+    },
+    {
+      "id": "rel-facade-adapter",
+      "target": "lab-23-facade",
+      "prerequisite": "lab-19-adapter",
+      "direction": "undirected",
+      "relation_type": "related",
+      "is_confirmed_prerequisite": false,
+      "teaching_order_status": "unconfirmed",
+      "evidence": "Compare Facade with Adapter and Mediator in a three-row table (purpose, direction of communication, what changes).",
+      "source_files": ["labs/structural_facade.md"],
+      "confidence": "confirmed"
+    }
+  ],
+  "unconfirmed": [
+    {
+      "id": "unconfirmed-factory-method-before-abstract-factory",
+      "target": "lab-11-abstract-factory",
+      "prerequisite": "lab-15-factory-method",
+      "direction": "target_depends_on_prerequisite",
+      "relation_type": "unconfirmed",
+      "is_confirmed_prerequisite": false,
+      "teaching_order_status": "unconfirmed",
+      "evidence": "The source compares Factory Method and Abstract Factory but does not state that Factory Method must be completed before Abstract Factory.",
+      "source_files": ["labs/creational_factory.md", "labs/creational_abstract_factory.md"],
+      "confidence": "unconfirmed"
+    },
+    {
+      "id": "unconfirmed-builder-before-chaining",
+      "target": "lab-14-chaining",
+      "prerequisite": "lab-13-builder",
+      "direction": "target_depends_on_prerequisite",
+      "relation_type": "unconfirmed",
+      "is_confirmed_prerequisite": false,
+      "teaching_order_status": "unconfirmed",
+      "evidence": "The source presents Builder before Chaining, but no file states Builder is a required prerequisite.",
+      "source_files": ["labs/index.md", "labs/creational_chaining.md"],
+      "confidence": "unconfirmed"
+    },
+    {
+      "id": "unconfirmed-singleton-before-borg",
+      "target": "lab-12-borg",
+      "prerequisite": "lab-18-singleton",
+      "direction": "target_depends_on_prerequisite",
+      "relation_type": "unconfirmed",
+      "is_confirmed_prerequisite": false,
+      "teaching_order_status": "unconfirmed",
+      "evidence": "The source compares Borg and Singleton but does not state Singleton is a required prerequisite.",
+      "source_files": ["labs/creational_borg.md", "labs/creational_singleton.md"],
+      "confidence": "unconfirmed"
+    }
+  ],
+  "unmapped_references": [
+    {
+      "id": "unmapped-mediator",
+      "mentioned_entity": "Mediator",
+      "mentioned_in": ["labs/structural_facade.md"],
+      "evidence": "Compare Facade with Adapter and Mediator in a three-row table.",
+      "status": "external_reference_no_local_module"
+    },
+    {
+      "id": "unmapped-dependency-injection",
+      "mentioned_entity": "Dependency Injection",
+      "mentioned_in": ["labs/structural_global_object.md", "docs/structural_global_object.md"],
+      "evidence": "Replace the global object with an explicitly passed dependency (constructor injection) and compare the two styles.",
+      "status": "external_reference_no_local_module"
+    }
+  ]
+}
