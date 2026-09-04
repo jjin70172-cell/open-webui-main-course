@@ -1,0 +1,1161 @@
+{
+  "schema_version": "1.0",
+  "repository": "python-design-pattern-rag",
+  "source_commit": "0bc24c7",
+  "index_definition": {
+    "unit_order_source": "labs/index.md",
+    "learning_units": 28,
+    "categories": ["behavioral", "creational", "structural"],
+    "pattern_kinds": ["gof", "python_idiom", "architecture"]
+  },
+  "chapters": [
+    {
+      "id": "lab-01-chain-of-responsibility",
+      "lab_no": 1,
+      "title": {"en": "Chain Of Responsibility", "zh": "责任链模式"},
+      "aliases": ["Chain of Responsibility", "CoR", "责任链"],
+      "category": "behavioral",
+      "pattern_kind": "gof",
+      "summary": "Sends a request along a chain of potential handlers and decouples the sender from its receivers.",
+      "keywords": ["handler chain", "set_next", "pass_to_next", "unhandled request", "loose coupling"],
+      "knowledge_points": [
+        {
+          "id": "lab-01-chain-of-responsibility-kp-role",
+          "type": "pattern_role",
+          "text": "Each handler decides either to process a request or forward it to the next handler; the client only knows the first handler.",
+          "source_files": ["labs/behavioral_chain_of_responsibility.md", "docs/behavioral_chain_of_responsibility.md"],
+          "evidence": "Each handler decides either to process a request or to forward it to the next handler in the chain.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-01-chain-of-responsibility-kp-python-technique",
+          "type": "python_technique",
+          "text": "The reference implementation exposes set_next, handle, and pass_to_next; set_next returns the next handler to support chained assignment.",
+          "source_files": ["labs/behavioral_chain_of_responsibility.md", "patterns/behavioral/chain_of_responsibility.py"],
+          "evidence": "Review the Handler base class: set_next, handle, and pass_to_next.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-01-chain-of-responsibility-kp-pitfall",
+          "type": "pitfall",
+          "text": "a.set_next(b).set_next(c) links b to c rather than a to c; unhandled requests and circular chains must be handled explicitly.",
+          "source_files": ["labs/behavioral_chain_of_responsibility.md"],
+          "evidence": "Forgetting that set_next returns the next handler, so a.set_next(b).set_next(c) links b to c, not a to c.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/behavioral_chain_of_responsibility.md", "type": "lab"},
+        {"path": "docs/behavioral_chain_of_responsibility.md", "type": "lesson"},
+        {"path": "patterns/behavioral/chain_of_responsibility.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-02-command",
+      "lab_no": 2,
+      "title": {"en": "Command", "zh": "命令模式"},
+      "aliases": ["Command Pattern", "命令"],
+      "category": "behavioral",
+      "pattern_kind": "gof",
+      "summary": "Encapsulates a request as an object so the invoker is decoupled from the receiver.",
+      "keywords": ["command", "invoker", "receiver", "undo", "queue"],
+      "knowledge_points": [
+        {
+          "id": "lab-02-command-kp-role",
+          "type": "pattern_role",
+          "text": "The four roles are Command, ConcreteCommand, Invoker, and Receiver; the invoker only knows execute.",
+          "source_files": ["labs/behavioral_command.md", "docs/behavioral_command.md"],
+          "evidence": "The Command pattern turns a request into a standalone object that carries all the information needed to perform an action.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-02-command-kp-python-technique",
+          "type": "python_technique",
+          "text": "A concrete command receives the receiver through its constructor and calls the receiver method from execute.",
+          "source_files": ["labs/behavioral_command.md", "patterns/behavioral/command.py"],
+          "evidence": "Forgetting to pass the receiver into the concrete command's constructor.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-02-command-kp-lab-task",
+          "type": "lab_task",
+          "text": "Add a Stereo receiver and StereoOnCommand and StereoVolumeCommand concrete commands, then submit them through RemoteControl.",
+          "source_files": ["labs/behavioral_command.md"],
+          "evidence": "Add a Stereo receiver with turn_on, turn_off, and set_volume(level) methods.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/behavioral_command.md", "type": "lab"},
+        {"path": "docs/behavioral_command.md", "type": "lesson"},
+        {"path": "patterns/behavioral/command.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-03-interpreter",
+      "lab_no": 3,
+      "title": {"en": "Interpreter", "zh": "解释器模式"},
+      "aliases": ["Interpreter Pattern", "解释器"],
+      "category": "behavioral",
+      "pattern_kind": "gof",
+      "summary": "Represents a grammar as a tree of expression objects and evaluates sentences by traversing the tree.",
+      "keywords": ["grammar", "terminal expression", "non-terminal expression", "context", "AST"],
+      "knowledge_points": [
+        {
+          "id": "lab-03-interpreter-kp-role",
+          "type": "pattern_role",
+          "text": "Terminal expressions such as Variable and non-terminal expressions such as Add and Subtract form an expression tree evaluated with interpret.",
+          "source_files": ["labs/behavioral_interpreter.md", "docs/behavioral_interpreter.md"],
+          "evidence": "The Interpreter pattern defines a representation for a language's grammar and evaluates sentences of that language by traversing the expression tree.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-03-interpreter-kp-python-technique",
+          "type": "python_technique",
+          "text": "The reference Variable.interpret treats a missing variable as 0, which is useful but can hide typos.",
+          "source_files": ["labs/behavioral_interpreter.md", "patterns/behavioral/interpreter.py"],
+          "evidence": "Because z is missing from the context and defaults to 0: 10 + (5 - 0) = 15.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-03-interpreter-kp-lab-task",
+          "type": "lab_task",
+          "text": "Implement a Multiply non-terminal expression and evaluate (x + y) * z.",
+          "source_files": ["labs/behavioral_interpreter.md"],
+          "evidence": "Implement a Multiply non-terminal expression and build the expression (x + y) * z with z = 3.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/behavioral_interpreter.md", "type": "lab"},
+        {"path": "docs/behavioral_interpreter.md", "type": "lesson"},
+        {"path": "patterns/behavioral/interpreter.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-04-memento",
+      "lab_no": 4,
+      "title": {"en": "Memento", "zh": "备忘录模式"},
+      "aliases": ["Memento Pattern", "备忘录"],
+      "category": "behavioral",
+      "pattern_kind": "gof",
+      "summary": "Captures an object's internal state into a memento so it can be restored later without breaking encapsulation.",
+      "keywords": ["originator", "memento", "caretaker", "undo", "restore"],
+      "knowledge_points": [
+        {
+          "id": "lab-04-memento-kp-role",
+          "type": "pattern_role",
+          "text": "The roles are Originator, Memento, and Caretaker; the caretaker stores history but does not inspect state.",
+          "source_files": ["labs/behavioral_memento.md", "docs/behavioral_memento.md"],
+          "evidence": "The Memento pattern captures an object's internal state into a memento object so it can be restored later.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-04-memento-kp-python-technique",
+          "type": "python_technique",
+          "text": "Save should return a copy of the state so the memento cannot be tampered with.",
+          "source_files": ["labs/behavioral_memento.md"],
+          "evidence": "Make TextEditor.save defensive by returning a copy of the state so the memento cannot be tampered with.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-04-memento-kp-pitfall",
+          "type": "pitfall",
+          "text": "Backing up after the change instead of before it restores the wrong state.",
+          "source_files": ["labs/behavioral_memento.md"],
+          "evidence": "Backing up after the change instead of before it, which makes undo restore the wrong state.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/behavioral_memento.md", "type": "lab"},
+        {"path": "docs/behavioral_memento.md", "type": "lesson"},
+        {"path": "patterns/behavioral/memento.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-05-observer",
+      "lab_no": 5,
+      "title": {"en": "Observer", "zh": "观察者模式"},
+      "aliases": ["Observer Pattern", "观察者"],
+      "category": "behavioral",
+      "pattern_kind": "gof",
+      "summary": "Defines a one-to-many dependency where a subject notifies attached observers when state changes.",
+      "keywords": ["subject", "observer", "attach", "detach", "notify", "push vs pull"],
+      "knowledge_points": [
+        {
+          "id": "lab-05-observer-kp-role",
+          "type": "pattern_role",
+          "text": "A Subject maintains observers and calls notify; observers register through attach and detach.",
+          "source_files": ["labs/behavioral_observer.md", "docs/behavioral_observer.md"],
+          "evidence": "The Observer pattern defines a subject that keeps a list of observers and notifies them whenever its state changes.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-05-observer-kp-python-technique",
+          "type": "python_technique",
+          "text": "The reference uses a push model by passing a message string; a pull model can have observers read subject state.",
+          "source_files": ["labs/behavioral_observer.md"],
+          "evidence": "A short comparison of the push model used here versus a pull model.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-05-observer-kp-pitfall",
+          "type": "pitfall",
+          "text": "Modifying the observer list while iterating over it in notify and assuming notification order are common pitfalls.",
+          "source_files": ["labs/behavioral_observer.md"],
+          "evidence": "Modifying the observer list while iterating over it in notify.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/behavioral_observer.md", "type": "lab"},
+        {"path": "docs/behavioral_observer.md", "type": "lesson"},
+        {"path": "patterns/behavioral/observer.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-06-sentinel-object",
+      "lab_no": 6,
+      "title": {"en": "Sentinel Object", "zh": "哨兵对象模式"},
+      "aliases": ["Sentinel", "哨兵"],
+      "category": "behavioral",
+      "pattern_kind": "python_idiom",
+      "summary": "Uses a unique object compared with identity to distinguish a missing value from legitimate values including None.",
+      "keywords": ["sentinel", "identity comparison", "MISSING", "END_OF_STREAM", "None"],
+      "knowledge_points": [
+        {
+          "id": "lab-06-sentinel-object-kp-role",
+          "type": "pattern_role",
+          "text": "A sentinel is a unique distinguishable object; identity comparison with is prevents confusion with None or user data.",
+          "source_files": ["labs/behavioral_sentinel.md", "docs/behavioral_sentinel.md"],
+          "evidence": "Because identity comparison (is) is used, a sentinel can never be confused with any legitimate user value, including None.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-06-sentinel-object-kp-python-technique",
+          "type": "python_technique",
+          "text": "The reference defines module-level MISSING and END_OF_STREAM sentinel instances and reuses them rather than creating new ones per call.",
+          "source_files": ["labs/behavioral_sentinel.md", "patterns/behavioral/sentinel.py"],
+          "evidence": "Review the Sentinel class, the MISSING and END_OF_STREAM instances, and process_items.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-06-sentinel-object-kp-pitfall",
+          "type": "pitfall",
+          "text": "Comparing sentinels with == instead of is and using None when None is a valid value are common mistakes.",
+          "source_files": ["labs/behavioral_sentinel.md"],
+          "evidence": "Comparing sentinels with == instead of is; identity is what guarantees uniqueness.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/behavioral_sentinel.md", "type": "lab"},
+        {"path": "docs/behavioral_sentinel.md", "type": "lesson"},
+        {"path": "patterns/behavioral/sentinel.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-07-state",
+      "lab_no": 7,
+      "title": {"en": "State", "zh": "状态模式"},
+      "aliases": ["State Pattern", "状态"],
+      "category": "behavioral",
+      "pattern_kind": "gof",
+      "summary": "Delegates behavior to a current state object so an object appears to change its class and can trigger transitions.",
+      "keywords": ["context", "state object", "transition", "set_context", "state machine"],
+      "knowledge_points": [
+        {
+          "id": "lab-07-state-kp-role",
+          "type": "pattern_role",
+          "text": "Context holds the current state and delegates request; concrete states may trigger transitions through set_context.",
+          "source_files": ["labs/behavioral_state.md", "docs/behavioral_state.md"],
+          "evidence": "The State pattern lets an object alter its behavior when its internal state changes by delegating work to a current state object.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-07-state-kp-comparison",
+          "type": "comparison",
+          "text": "States transition automatically as part of the workflow, while strategies are usually chosen by the client.",
+          "source_files": ["labs/behavioral_state.md", "labs/behavioral_strategy.md"],
+          "evidence": "Confusing State with Strategy: states transition automatically as part of the workflow, strategies are usually chosen by the client.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-07-state-kp-pitfall",
+          "type": "pitfall",
+          "text": "Forgetting to call set_context on a new state prevents the state from triggering further transitions.",
+          "source_files": ["labs/behavioral_state.md"],
+          "evidence": "Forgetting to call set_context on the new state during a transition, so the state cannot trigger further transitions.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/behavioral_state.md", "type": "lab"},
+        {"path": "docs/behavioral_state.md", "type": "lesson"},
+        {"path": "patterns/behavioral/state.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-08-strategy",
+      "lab_no": 8,
+      "title": {"en": "Strategy", "zh": "策略模式"},
+      "aliases": ["Strategy Pattern", "策略"],
+      "category": "behavioral",
+      "pattern_kind": "gof",
+      "summary": "Defines a family of interchangeable algorithms behind a common interface selected at runtime.",
+      "keywords": ["strategy", "algorithm family", "runtime selection", "set_strategy", "sort context"],
+      "knowledge_points": [
+        {
+          "id": "lab-08-strategy-kp-role",
+          "type": "pattern_role",
+          "text": "A context delegates to a strategy interface; concrete strategies provide interchangeable algorithms.",
+          "source_files": ["labs/behavioral_strategy.md", "docs/behavioral_strategy.md"],
+          "evidence": "The Strategy pattern defines a set of algorithms behind a common interface so the client can swap them at runtime.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-08-strategy-kp-comparison",
+          "type": "comparison",
+          "text": "Strategies are chosen by the client and do not switch themselves, unlike states.",
+          "source_files": ["labs/behavioral_strategy.md", "labs/behavioral_state.md"],
+          "evidence": "Confusing Strategy with State: strategies are chosen by the client and do not switch themselves.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-08-strategy-kp-lab-task",
+          "type": "lab_task",
+          "text": "Implement TopThreeStrategy returning the three largest values in descending order.",
+          "source_files": ["labs/behavioral_strategy.md"],
+          "evidence": "Implement TopThreeStrategy that returns the three largest values in descending order.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/behavioral_strategy.md", "type": "lab"},
+        {"path": "docs/behavioral_strategy.md", "type": "lesson"},
+        {"path": "patterns/behavioral/strategy.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-09-template-method",
+      "lab_no": 9,
+      "title": {"en": "Template Method", "zh": "模板方法模式"},
+      "aliases": ["Template Method Pattern", "模板方法"],
+      "category": "behavioral",
+      "pattern_kind": "gof",
+      "summary": "Fixes an algorithm skeleton in a base class and defers selected steps or hooks to subclasses.",
+      "keywords": ["template method", "abstract operation", "hook", "algorithm skeleton", "subclass"],
+      "knowledge_points": [
+        {
+          "id": "lab-09-template-method-kp-role",
+          "type": "pattern_role",
+          "text": "The base class defines base operations, required abstract operations, and optional hooks; subclasses fill in selected steps.",
+          "source_files": ["labs/behavioral_template_method.md", "docs/behavioral_template_method.md"],
+          "evidence": "The Template Method pattern defines the structure of an algorithm in a base class and defers selected steps to subclasses.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-09-template-method-kp-python-technique",
+          "type": "python_technique",
+          "text": "Python abstract methods enforce required operations, while hooks have a default no-op or shared implementation.",
+          "source_files": ["labs/behavioral_template_method.md", "patterns/behavioral/template_method.py"],
+          "evidence": "Distinguish abstract steps, base (shared) steps, and optional hooks.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-09-template-method-kp-pitfall",
+          "type": "pitfall",
+          "text": "Subclasses must not override the template method itself, or the fixed algorithm order is destroyed.",
+          "source_files": ["labs/behavioral_template_method.md"],
+          "evidence": "Letting subclasses override the template method itself, destroying the fixed algorithm order.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/behavioral_template_method.md", "type": "lab"},
+        {"path": "docs/behavioral_template_method.md", "type": "lesson"},
+        {"path": "patterns/behavioral/template_method.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-10-visitor",
+      "lab_no": 10,
+      "title": {"en": "Visitor", "zh": "访问者模式"},
+      "aliases": ["Visitor Pattern", "访问者"],
+      "category": "behavioral",
+      "pattern_kind": "gof",
+      "summary": "Separates operations from an object structure and adds new operations through double dispatch.",
+      "keywords": ["visitor", "element", "accept", "double dispatch", "visit method"],
+      "knowledge_points": [
+        {
+          "id": "lab-10-visitor-kp-role",
+          "type": "pattern_role",
+          "text": "Each element provides accept(visitor), which calls back the visitor's type-specific visit method; this is double dispatch.",
+          "source_files": ["labs/behavioral_visitor.md", "docs/behavioral_visitor.md"],
+          "evidence": "Each element provides accept(visitor), which calls back the visitor's type-specific visit_* method - this is double dispatch.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-10-visitor-kp-python-technique",
+          "type": "python_technique",
+          "text": "The reference traces element.accept(visitor) to visitor.visit_element_a(element), so the visitor receives the concrete element.",
+          "source_files": ["labs/behavioral_visitor.md", "patterns/behavioral/visitor.py"],
+          "evidence": "Trace one full call: element.accept(visitor) -> visitor.visit_element_a(element).",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-10-visitor-kp-pitfall",
+          "type": "pitfall",
+          "text": "Adding an element type requires a visit method in every visitor; Visitor is best when elements are stable and operations grow.",
+          "source_files": ["labs/behavioral_visitor.md"],
+          "evidence": "Discuss what must change when a new element type is added, and why this is the pattern's main cost.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/behavioral_visitor.md", "type": "lab"},
+        {"path": "docs/behavioral_visitor.md", "type": "lesson"},
+        {"path": "patterns/behavioral/visitor.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-11-abstract-factory",
+      "lab_no": 11,
+      "title": {"en": "Abstract Factory", "zh": "抽象工厂模式"},
+      "aliases": ["Abstract Factory Pattern", "抽象工厂"],
+      "category": "creational",
+      "pattern_kind": "gof",
+      "summary": "Provides an interface for creating families of related objects without specifying concrete classes.",
+      "keywords": ["abstract factory", "product family", "concrete factory", "GUI", "compatible products"],
+      "knowledge_points": [
+        {
+          "id": "lab-11-abstract-factory-kp-role",
+          "type": "pattern_role",
+          "text": "Abstract products, concrete products, an abstract factory, and concrete factories keep client code independent of concrete classes.",
+          "source_files": ["labs/creational_abstract_factory.md", "docs/creational_abstract_factory.md"],
+          "evidence": "The Abstract Factory pattern provides an interface for creating families of related objects without specifying their concrete classes.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-11-abstract-factory-kp-comparison",
+          "type": "comparison",
+          "text": "Abstract Factory creates families via composition, while Factory Method creates one product via inheritance.",
+          "source_files": ["labs/creational_factory.md", "labs/creational_abstract_factory.md"],
+          "evidence": "Factory Method creates one product via inheritance; Abstract Factory creates families via composition.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-11-abstract-factory-kp-lab-task",
+          "type": "lab_task",
+          "text": "Add LinuxButton, LinuxCheckbox, and LinuxFactory to extend the GUI example with a third family.",
+          "source_files": ["labs/creational_abstract_factory.md"],
+          "evidence": "Add LinuxButton, LinuxCheckbox, and LinuxFactory; extend the selection logic with a third branch.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/creational_abstract_factory.md", "type": "lab"},
+        {"path": "docs/creational_abstract_factory.md", "type": "lesson"},
+        {"path": "patterns/creational/abstract_factory.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-12-borg",
+      "lab_no": 12,
+      "title": {"en": "Borg", "zh": "博格/单态模式"},
+      "aliases": ["Borg Pattern", "Monostate", "单态", "博格"],
+      "category": "creational",
+      "pattern_kind": "python_idiom",
+      "summary": "Lets multiple instances share one internal state by assigning every instance __dict__ to a class-level dictionary.",
+      "keywords": ["Borg", "Monostate", "shared state", "__dict__", "single identity"],
+      "knowledge_points": [
+        {
+          "id": "lab-12-borg-kp-role",
+          "type": "pattern_role",
+          "text": "Borg shares state across instances without restricting instantiation, unlike Singleton's single identity.",
+          "source_files": ["labs/creational_borg.md", "docs/creational_borg.md"],
+          "evidence": "The Borg pattern lets any number of instances exist but makes them all share the same internal state.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-12-borg-kp-python-technique",
+          "type": "python_technique",
+          "text": "The core trick is self.__dict__ = self._shared_state in Borg.__init__.",
+          "source_files": ["labs/creational_borg.md", "patterns/creational/borg.py"],
+          "evidence": "The single line self.__dict__ = self._shared_state is the whole trick.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-12-borg-kp-comparison",
+          "type": "comparison",
+          "text": "Borg and Singleton differ in identity, state sharing, and instantiation.",
+          "source_files": ["labs/creational_borg.md"],
+          "evidence": "A two-column comparison of Borg versus Singleton (identity, state, instantiation).",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/creational_borg.md", "type": "lab"},
+        {"path": "docs/creational_borg.md", "type": "lesson"},
+        {"path": "patterns/creational/borg.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-13-builder",
+      "lab_no": 13,
+      "title": {"en": "Builder", "zh": "建造者模式"},
+      "aliases": ["Builder Pattern", "建造者"],
+      "category": "creational",
+      "pattern_kind": "gof",
+      "summary": "Separates step-by-step construction from product representation and uses a Director for reusable recipes.",
+      "keywords": ["builder", "director", "product", "construction steps", "reset"],
+      "knowledge_points": [
+        {
+          "id": "lab-13-builder-kp-role",
+          "type": "pattern_role",
+          "text": "The roles are Product, Builder, ConcreteBuilder, and Director.",
+          "source_files": ["labs/creational_builder.md", "docs/creational_builder.md"],
+          "evidence": "The Builder pattern separates step-by-step construction from the final product.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-13-builder-kp-python-technique",
+          "type": "python_technique",
+          "text": "get_product resets the builder so parts do not leak between products.",
+          "source_files": ["labs/creational_builder.md", "patterns/creational/builder.py"],
+          "evidence": "Note that get_product resets the builder - build twice and confirm no parts leak between products.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-13-builder-kp-pitfall",
+          "type": "pitfall",
+          "text": "The Director should depend only on the Builder interface, not on concrete builders.",
+          "source_files": ["labs/creational_builder.md"],
+          "evidence": "Letting the Director know concrete builders; it should depend only on the Builder interface.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/creational_builder.md", "type": "lab"},
+        {"path": "docs/creational_builder.md", "type": "lesson"},
+        {"path": "patterns/creational/builder.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-14-chaining",
+      "lab_no": 14,
+      "title": {"en": "Chaining", "zh": "方法链/流式建造者模式"},
+      "aliases": ["Method Chaining", "Fluent Builder", "方法链", "流式接口"],
+      "category": "creational",
+      "pattern_kind": "python_idiom",
+      "summary": "Builds objects with a chainable fluent interface and can combine validation, undo, and final build verification.",
+      "keywords": ["method chaining", "fluent interface", "return self", "undo", "validation"],
+      "knowledge_points": [
+        {
+          "id": "lab-14-chaining-kp-role",
+          "type": "pattern_role",
+          "text": "Each configuration method returns the builder itself, ending in a build method that returns the final product.",
+          "source_files": ["labs/creational_chaining.md", "docs/creational_chaining.md"],
+          "evidence": "Method chaining (fluent interface) lets each configuration method return the builder itself.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-14-chaining-kp-python-technique",
+          "type": "python_technique",
+          "text": "The PizzaBuilder saves state before mutation and applies validation, supporting undo recovery.",
+          "source_files": ["labs/creational_chaining.md", "patterns/creational/chaining.py"],
+          "evidence": "The PizzaBuilder demo adds input validation and an undo stack on top.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-14-chaining-kp-pitfall",
+          "type": "pitfall",
+          "text": "Forgetting return self silently breaks the chain because the next call fails on None.",
+          "source_files": ["labs/creational_chaining.md"],
+          "evidence": "Forgetting return self in one method silently breaks the chain (the next call fails on None).",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/creational_chaining.md", "type": "lab"},
+        {"path": "docs/creational_chaining.md", "type": "lesson"},
+        {"path": "patterns/creational/chaining.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-15-factory-method",
+      "lab_no": 15,
+      "title": {"en": "Factory Method", "zh": "工厂方法模式"},
+      "aliases": ["Factory", "Factory Method Pattern", "工厂方法"],
+      "category": "creational",
+      "pattern_kind": "gof",
+      "summary": "Defines an interface for creating objects but lets subclasses decide which class to instantiate.",
+      "keywords": ["creator", "concrete creator", "product", "concrete product", "factory method"],
+      "knowledge_points": [
+        {
+          "id": "lab-15-factory-method-kp-role",
+          "type": "pattern_role",
+          "text": "The roles are Product, ConcreteProduct, Creator, and ConcreteCreator.",
+          "source_files": ["labs/creational_factory.md", "docs/creational_factory.md"],
+          "evidence": "The Factory Method pattern defines an interface for creating objects but lets subclasses decide which class to instantiate.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-15-factory-method-kp-comparison",
+          "type": "comparison",
+          "text": "Factory Method creates one product via inheritance; Abstract Factory creates families via composition.",
+          "source_files": ["labs/creational_factory.md", "labs/creational_abstract_factory.md"],
+          "evidence": "Factory Method creates one product via inheritance; Abstract Factory creates families via composition.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-15-factory-method-kp-lab-task",
+          "type": "lab_task",
+          "text": "Add ConcreteProductC and ConcreteCreatorC, then include the creator in the demo loop.",
+          "source_files": ["labs/creational_factory.md"],
+          "evidence": "Add ConcreteProductC returning \"Result from ConcreteProductC\" and ConcreteCreatorC that produces it.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/creational_factory.md", "type": "lab"},
+        {"path": "docs/creational_factory.md", "type": "lesson"},
+        {"path": "patterns/creational/factory.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-16-lazy-evaluation",
+      "lab_no": 16,
+      "title": {"en": "Lazy Evaluation", "zh": "惰性求值模式"},
+      "aliases": ["Lazy Evaluation Pattern", "Lazy Property", "惰性求值"],
+      "category": "creational",
+      "pattern_kind": "python_idiom",
+      "summary": "Defers expensive computation until first use and caches the result on the instance.",
+      "keywords": ["lazy evaluation", "cache", "decorator", "first access", "invalidation"],
+      "knowledge_points": [
+        {
+          "id": "lab-16-lazy-evaluation-kp-role",
+          "type": "pattern_role",
+          "text": "Lazy evaluation delays computation until the value is needed and caches the result for later accesses.",
+          "source_files": ["labs/creational_lazy_evaluation.md", "docs/creational_lazy_evaluation.md"],
+          "evidence": "Lazy evaluation delays an expensive operation until its result is actually needed, then caches the result.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-16-lazy-evaluation-kp-python-technique",
+          "type": "python_technique",
+          "text": "The lazy_property decorator stores the value under _lazy_<name> after the first computation.",
+          "source_files": ["labs/creational_lazy_evaluation.md", "patterns/creational/lazy_evaluation.py"],
+          "evidence": "The lazy_property decorator stores the value under _lazy_<name> after the first computation.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-16-lazy-evaluation-kp-pitfall",
+          "type": "pitfall",
+          "text": "The cached value is stored on the instance, so two instances compute independently; the example is not thread-safe.",
+          "source_files": ["labs/creational_lazy_evaluation.md"],
+          "evidence": "Forgetting that the cached value is stored on the instance; two instances compute independently.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/creational_lazy_evaluation.md", "type": "lab"},
+        {"path": "docs/creational_lazy_evaluation.md", "type": "lesson"},
+        {"path": "patterns/creational/lazy_evaluation.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-17-prototype",
+      "lab_no": 17,
+      "title": {"en": "Prototype", "zh": "原型模式"},
+      "aliases": ["Prototype Pattern", "原型"],
+      "category": "creational",
+      "pattern_kind": "gof",
+      "summary": "Creates new objects by cloning an existing prototype, typically using deep copy.",
+      "keywords": ["prototype", "clone", "deep copy", "shallow copy", "registry"],
+      "knowledge_points": [
+        {
+          "id": "lab-17-prototype-kp-role",
+          "type": "pattern_role",
+          "text": "The Prototype pattern creates objects by copying a prototypical instance rather than calling constructors.",
+          "source_files": ["labs/creational_prototype.md", "docs/creational_prototype.md"],
+          "evidence": "The Prototype pattern creates new objects by copying a prototypical instance.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-17-prototype-kp-python-technique",
+          "type": "python_technique",
+          "text": "The reference uses copy.deepcopy so the clone is fully independent; switching to copy.copy shares nested mutable state.",
+          "source_files": ["labs/creational_prototype.md", "patterns/creational/prototype.py"],
+          "evidence": "In Python, copy.deepcopy is the typical mechanism, ensuring the clone is fully independent of the original.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-17-prototype-kp-pitfall",
+          "type": "pitfall",
+          "text": "Using shallow copy when objects contain nested mutable structures silently shares state.",
+          "source_files": ["labs/creational_prototype.md"],
+          "evidence": "Using shallow copy when objects contain nested mutable structures, which silently shares state between original and clone.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/creational_prototype.md", "type": "lab"},
+        {"path": "docs/creational_prototype.md", "type": "lesson"},
+        {"path": "patterns/creational/prototype.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-18-singleton",
+      "lab_no": 18,
+      "title": {"en": "Singleton", "zh": "单例模式"},
+      "aliases": ["Singleton Pattern", "单例"],
+      "category": "creational",
+      "pattern_kind": "gof",
+      "summary": "Ensures a class has only one instance and provides a global point of access to it.",
+      "keywords": ["singleton", "metaclass", "single instance", "global access", "shared state"],
+      "knowledge_points": [
+        {
+          "id": "lab-18-singleton-kp-role",
+          "type": "pattern_role",
+          "text": "Singleton ensures exactly one instance and provides a global point of access.",
+          "source_files": ["labs/creational_singleton.md", "docs/creational_singleton.md"],
+          "evidence": "The Singleton pattern ensures a class has only one instance and provides a global point of access to it.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-18-singleton-kp-python-technique",
+          "type": "python_technique",
+          "text": "SingletonMeta.__call__ creates the instance only when the class is not already in _instances.",
+          "source_files": ["labs/creational_singleton.md", "patterns/creational/singleton.py"],
+          "evidence": "The reference implementation uses the SingletonMeta metaclass, which caches instances in _instances.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-18-singleton-kp-pitfall",
+          "type": "pitfall",
+          "text": "Hidden global state can make unit testing harder; constructor arguments are ignored after the first creation.",
+          "source_files": ["labs/creational_singleton.md"],
+          "evidence": "Treating the singleton as a convenient global variable; hidden dependencies make code harder to reason about and test.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/creational_singleton.md", "type": "lab"},
+        {"path": "docs/creational_singleton.md", "type": "lesson"},
+        {"path": "patterns/creational/singleton.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-19-adapter",
+      "lab_no": 19,
+      "title": {"en": "Adapter", "zh": "适配器模式"},
+      "aliases": ["Adapter Pattern", "适配器"],
+      "category": "structural",
+      "pattern_kind": "gof",
+      "summary": "Translates an incompatible interface into the interface the client expects.",
+      "keywords": ["adapter", "target", "adaptee", "interface translation", "wrapper"],
+      "knowledge_points": [
+        {
+          "id": "lab-19-adapter-kp-role",
+          "type": "pattern_role",
+          "text": "Target, Adaptee, and Adapter work together; the adapter wraps the adaptee and translates calls.",
+          "source_files": ["labs/structural_adapter.md", "docs/structural_adapter.md"],
+          "evidence": "The Adapter pattern wraps an object with an incompatible interface and exposes it through the interface the client already uses.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-19-adapter-kp-python-technique",
+          "type": "python_technique",
+          "text": "The reference reverses the adaptee-specific string before returning the translated Target.request result.",
+          "source_files": ["labs/structural_adapter.md", "patterns/structural/adapter.py"],
+          "evidence": "Explain exactly what the adapter does to the adaptee's reversed string before returning it.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-19-adapter-kp-pitfall",
+          "type": "pitfall",
+          "text": "The adapter should translate the interface mismatch, not contain business logic.",
+          "source_files": ["labs/structural_adapter.md"],
+          "evidence": "Putting business logic inside the adapter; it should translate, not transform behavior beyond the interface mismatch.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/structural_adapter.md", "type": "lab"},
+        {"path": "docs/structural_adapter.md", "type": "lesson"},
+        {"path": "patterns/structural/adapter.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-20-bridge",
+      "lab_no": 20,
+      "title": {"en": "Bridge", "zh": "桥接模式"},
+      "aliases": ["Bridge Pattern", "桥接"],
+      "category": "structural",
+      "pattern_kind": "gof",
+      "summary": "Decouples an abstraction from its implementation so both can vary independently.",
+      "keywords": ["bridge", "abstraction", "implementor", "renderer", "orthogonal variation"],
+      "knowledge_points": [
+        {
+          "id": "lab-20-bridge-kp-role",
+          "type": "pattern_role",
+          "text": "The abstraction holds a reference to the implementation hierarchy instead of inheriting it.",
+          "source_files": ["labs/structural_bridge.md", "docs/structural_bridge.md"],
+          "evidence": "The Bridge pattern decouples an abstraction from its implementation by holding the implementation as a reference instead of inheriting it.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-20-bridge-kp-python-technique",
+          "type": "python_technique",
+          "text": "Shape accepts a Renderer and calls renderer.what_to_render, so shape and renderer combinations can be mixed at runtime.",
+          "source_files": ["labs/structural_bridge.md", "patterns/structural/bridge.py"],
+          "evidence": "The abstraction holds a reference to the implementor, so you can easily swap out implementations.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-20-bridge-kp-pitfall",
+          "type": "pitfall",
+          "text": "Instantiating a concrete renderer inside Shape couples the abstraction to one implementation.",
+          "source_files": ["labs/structural_bridge.md"],
+          "evidence": "Coupling the abstraction to a concrete renderer (for example instantiating VectorRenderer inside Shape), which destroys the bridge.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/structural_bridge.md", "type": "lab"},
+        {"path": "docs/structural_bridge.md", "type": "lesson"},
+        {"path": "patterns/structural/bridge.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-21-composite",
+      "lab_no": 21,
+      "title": {"en": "Composite", "zh": "组合模式"},
+      "aliases": ["Composite Pattern", "组合"],
+      "category": "structural",
+      "pattern_kind": "gof",
+      "summary": "Represents part-whole hierarchies as trees and treats leaves and composites uniformly.",
+      "keywords": ["component", "leaf", "composite", "tree", "recursive aggregation"],
+      "knowledge_points": [
+        {
+          "id": "lab-21-composite-kp-role",
+          "type": "pattern_role",
+          "text": "Component, Leaf, and Composite share one interface; Composite.operation aggregates children results.",
+          "source_files": ["labs/structural_composite.md", "docs/structural_composite.md"],
+          "evidence": "The Composite pattern composes objects into tree structures. Clients call the same operation on a single leaf or on a deep composite.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-21-composite-kp-python-technique",
+          "type": "python_technique",
+          "text": "The reference recursively combines child operation strings in Composite.operation.",
+          "source_files": ["labs/structural_composite.md", "patterns/structural/composite.py"],
+          "evidence": "Note how Composite.operation aggregates children.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-21-composite-kp-pitfall",
+          "type": "pitfall",
+          "text": "Leaf add and remove do nothing silently; decide whether they should raise instead.",
+          "source_files": ["labs/structural_composite.md"],
+          "evidence": "Forgetting that leaf add/remove do nothing silently; decide whether they should raise instead.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/structural_composite.md", "type": "lab"},
+        {"path": "docs/structural_composite.md", "type": "lesson"},
+        {"path": "patterns/structural/composite.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-22-decorator",
+      "lab_no": 22,
+      "title": {"en": "Decorator", "zh": "装饰器模式"},
+      "aliases": ["Decorator Pattern", "装饰器"],
+      "category": "structural",
+      "pattern_kind": "gof",
+      "summary": "Adds responsibilities to individual objects dynamically by wrapping them with decorators that share the component interface.",
+      "keywords": ["decorator", "wrapping", "component interface", "stacking", "open/closed principle"],
+      "knowledge_points": [
+        {
+          "id": "lab-22-decorator-kp-role",
+          "type": "pattern_role",
+          "text": "Decorator holds a Component and forwards operation to it, adding behavior before or after delegation.",
+          "source_files": ["labs/structural_decorator.md", "docs/structural_decorator.md"],
+          "evidence": "The Decorator pattern wraps an object in decorator classes that share the component interface.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-22-decorator-kp-python-technique",
+          "type": "python_technique",
+          "text": "Decorator stacking order changes the result; the lab compares DecoratorB(DecoratorA(component)) with the reverse order.",
+          "source_files": ["labs/structural_decorator.md", "patterns/structural/decorator.py"],
+          "evidence": "Wrap the component as DecoratorB(DecoratorA(component)) and compare with DecoratorA(DecoratorB(component)).",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-22-decorator-kp-comparison",
+          "type": "comparison",
+          "text": "The object decorator pattern is related to Python's @decorator syntax but operates on object wrappers rather than functions directly.",
+          "source_files": ["labs/structural_decorator.md"],
+          "evidence": "Compare this pattern with Python's @functools.wraps decorator syntax in a short paragraph: what do they share, and how do they differ?",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/structural_decorator.md", "type": "lab"},
+        {"path": "docs/structural_decorator.md", "type": "lesson"},
+        {"path": "patterns/structural/decorator.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-23-facade",
+      "lab_no": 23,
+      "title": {"en": "Facade", "zh": "外观模式"},
+      "aliases": ["Facade Pattern", "外观"],
+      "category": "structural",
+      "pattern_kind": "gof",
+      "summary": "Provides a simplified high-level interface over a set of subsystem classes.",
+      "keywords": ["facade", "subsystem", "high-level interface", "coupling", "orchestration"],
+      "knowledge_points": [
+        {
+          "id": "lab-23-facade-kp-role",
+          "type": "pattern_role",
+          "text": "Facade.operation orchestrates subsystem methods behind a single high-level interface.",
+          "source_files": ["labs/structural_facade.md", "docs/structural_facade.md"],
+          "evidence": "The Facade pattern hides the complexity of a subsystem behind a single high-level interface.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-23-facade-kp-python-technique",
+          "type": "python_technique",
+          "text": "Client code can call SubsystemA and SubsystemB directly or use Facade.operation; the lab compares both styles.",
+          "source_files": ["labs/structural_facade.md", "patterns/structural/facade.py"],
+          "evidence": "Write client code that achieves the same result without the facade by calling subsystem methods directly.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-23-facade-kp-comparison",
+          "type": "comparison",
+          "text": "The lab asks learners to compare Facade with Adapter and Mediator.",
+          "source_files": ["labs/structural_facade.md"],
+          "evidence": "Compare Facade with Adapter and Mediator in a three-row table (purpose, direction of communication, what changes).",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/structural_facade.md", "type": "lab"},
+        {"path": "docs/structural_facade.md", "type": "lesson"},
+        {"path": "patterns/structural/facade.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-24-flyweight",
+      "lab_no": 24,
+      "title": {"en": "Flyweight", "zh": "享元模式"},
+      "aliases": ["Flyweight Pattern", "享元"],
+      "category": "structural",
+      "pattern_kind": "gof",
+      "summary": "Shares intrinsic state across many objects and externalizes unique extrinsic state to reduce memory.",
+      "keywords": ["flyweight", "intrinsic state", "extrinsic state", "factory cache", "memory"],
+      "knowledge_points": [
+        {
+          "id": "lab-24-flyweight-kp-role",
+          "type": "pattern_role",
+          "text": "Flyweight holds shared intrinsic state; the client passes unique extrinsic state at call time.",
+          "source_files": ["labs/structural_flyweight.md", "docs/structural_flyweight.md"],
+          "evidence": "Shared intrinsic state lives in the flyweight; unique extrinsic state is passed in by the client at call time.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-24-flyweight-kp-python-technique",
+          "type": "python_technique",
+          "text": "FlyweightFactory caches flyweights by shared state and reuses existing entries.",
+          "source_files": ["labs/structural_flyweight.md", "patterns/structural/flyweight.py"],
+          "evidence": "The FlyweightFactory checks if that shared state already exists. If so, it reuses it; if not, it creates and stores it.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-24-flyweight-kp-pitfall",
+          "type": "pitfall",
+          "text": "Storing extrinsic state inside the flyweight corrupts other clients' views.",
+          "source_files": ["labs/structural_flyweight.md"],
+          "evidence": "Storing extrinsic state inside the flyweight; it must stay shareable and therefore immutable per key.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/structural_flyweight.md", "type": "lab"},
+        {"path": "docs/structural_flyweight.md", "type": "lesson"},
+        {"path": "patterns/structural/flyweight.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-25-global-object",
+      "lab_no": 25,
+      "title": {"en": "Global Object", "zh": "全局对象模式"},
+      "aliases": ["Global Object Pattern", "全局对象"],
+      "category": "structural",
+      "pattern_kind": "python_idiom",
+      "summary": "Exposes a shared object through a module-level declaration as a lightweight alternative to enforced singletons.",
+      "keywords": ["global object", "module-level state", "shared config", "dependency injection", "module cache"],
+      "knowledge_points": [
+        {
+          "id": "lab-25-global-object-kp-role",
+          "type": "pattern_role",
+          "text": "A module-level shared object gives centralized access without a strict singleton mechanism.",
+          "source_files": ["labs/structural_global_object.md", "docs/structural_global_object.md"],
+          "evidence": "The Global Object pattern exposes a shared object through a module-level declaration.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-25-global-object-kp-python-technique",
+          "type": "python_technique",
+          "text": "Other modules import the same instance; Python module caching makes the imports reference one shared object.",
+          "source_files": ["labs/structural_global_object.md", "patterns/structural/global_object.py"],
+          "evidence": "Other modules import the same instance, giving centralized access to configuration or registries without a strict singleton mechanism.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-25-global-object-kp-pitfall",
+          "type": "pitfall",
+          "text": "Importing the same file in different ways can create two module instances with two different globals.",
+          "source_files": ["labs/structural_global_object.md"],
+          "evidence": "Importing the module in different ways so Python creates two module instances with two different globals.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/structural_global_object.md", "type": "lab"},
+        {"path": "docs/structural_global_object.md", "type": "lesson"},
+        {"path": "patterns/structural/global_object.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-26-prebound-method",
+      "lab_no": 26,
+      "title": {"en": "Prebound Method", "zh": "预绑定方法模式"},
+      "aliases": ["Prebound Method Pattern", "预绑定方法"],
+      "category": "structural",
+      "pattern_kind": "python_idiom",
+      "summary": "Binds an instance method to a local name or partial to avoid repeated dynamic lookup in hot loops.",
+      "keywords": ["prebound method", "local binding", "functools.partial", "attribute lookup", "performance"],
+      "knowledge_points": [
+        {
+          "id": "lab-26-prebound-method-kp-role",
+          "type": "pattern_role",
+          "text": "Binding a method to a local variable avoids repeated attribute lookup and can improve hot-loop performance.",
+          "source_files": ["labs/structural_prebound_method.md", "docs/structural_prebound_method.md"],
+          "evidence": "The Prebound Method pattern binds an instance method to a local variable so that tight loops and callback registrations skip repeated dynamic lookup.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-26-prebound-method-kp-python-technique",
+          "type": "python_technique",
+          "text": "Local prebinding uses process_text = proc.process_text; functools.partial can prebind arguments as well.",
+          "source_files": ["labs/structural_prebound_method.md", "patterns/structural/prebound_method.py"],
+          "evidence": "The three techniques shown: dynamic getattr lookup, local prebinding, and functools.partial.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-26-prebound-method-kp-pitfall",
+          "type": "pitfall",
+          "text": "Prebinding too early keeps the bound reference pointing at the old object if the target is replaced later.",
+          "source_files": ["labs/structural_prebound_method.md"],
+          "evidence": "Prebinding too early when the target object may be replaced later; the bound reference keeps pointing at the old object.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/structural_prebound_method.md", "type": "lab"},
+        {"path": "docs/structural_prebound_method.md", "type": "lesson"},
+        {"path": "patterns/structural/prebound_method.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-27-proxy",
+      "lab_no": 27,
+      "title": {"en": "Proxy", "zh": "代理模式"},
+      "aliases": ["Proxy Pattern", "代理"],
+      "category": "structural",
+      "pattern_kind": "gof",
+      "summary": "Provides a surrogate object that controls access to a real subject and can add cross-cutting behavior.",
+      "keywords": ["proxy", "real subject", "access control", "caching", "logging"],
+      "knowledge_points": [
+        {
+          "id": "lab-27-proxy-kp-role",
+          "type": "pattern_role",
+          "text": "Proxy implements the same interface as RealSubject and controls access before delegating.",
+          "source_files": ["labs/structural_proxy.md", "docs/structural_proxy.md"],
+          "evidence": "The Proxy pattern provides a placeholder for another object to control access, reduce cost, or add functionality.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-27-proxy-kp-python-technique",
+          "type": "python_technique",
+          "text": "The protection proxy performs check_access, delegates to RealSubject, then log_access.",
+          "source_files": ["labs/structural_proxy.md", "patterns/structural/proxy.py"],
+          "evidence": "Trace Proxy.request: access check, delegation to RealSubject, then logging.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-27-proxy-kp-comparison",
+          "type": "comparison",
+          "text": "Standard proxy variants include protection, cache, virtual, and remote proxies.",
+          "source_files": ["labs/structural_proxy.md", "docs/structural_proxy.md"],
+          "evidence": "Common types of proxies include virtual proxies, protection proxies, remote proxies, and logging proxies.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/structural_proxy.md", "type": "lab"},
+        {"path": "docs/structural_proxy.md", "type": "lesson"},
+        {"path": "patterns/structural/proxy.py", "type": "reference_implementation"}
+      ]
+    },
+    {
+      "id": "lab-28-three-tier",
+      "lab_no": 28,
+      "title": {"en": "Three-Tier", "zh": "三层架构模式"},
+      "aliases": ["Three-Tier Architecture", "3-Tier", "三层架构"],
+      "category": "structural",
+      "pattern_kind": "architecture",
+      "summary": "Separates an application into presentation, logic, and data tiers, where each tier talks only to its neighbor.",
+      "keywords": ["three-tier", "presentation layer", "logic layer", "data layer", "separation of concerns"],
+      "knowledge_points": [
+        {
+          "id": "lab-28-three-tier-kp-role",
+          "type": "pattern_role",
+          "text": "The data, logic, and presentation layers each have one responsibility; each layer depends only on the tier directly below it.",
+          "source_files": ["labs/structural_three_tier.md", "docs/structural_three_tier.md"],
+          "evidence": "Three-tier architecture splits an application into a presentation layer, a logic layer, and a data layer. Each tier depends only on the tier directly below it.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-28-three-tier-kp-python-technique",
+          "type": "python_technique",
+          "text": "The reference marks data, logic, and presentation sections in one file; learners split them into modules with one-directional imports.",
+          "source_files": ["labs/structural_three_tier.md", "patterns/structural/three_tier.py"],
+          "evidence": "Split the file into data.py, logic.py, and presentation.py modules with one-directional imports; verify the import graph has no cycles.",
+          "confidence": "confirmed"
+        },
+        {
+          "id": "lab-28-three-tier-kp-pitfall",
+          "type": "pitfall",
+          "text": "The presentation layer should not call the data layer directly, which bypasses validation.",
+          "source_files": ["labs/structural_three_tier.md"],
+          "evidence": "Letting the presentation layer call the data layer directly, which bypasses validation.",
+          "confidence": "confirmed"
+        }
+      ],
+      "sources": [
+        {"path": "labs/structural_three_tier.md", "type": "lab"},
+        {"path": "docs/structural_three_tier.md", "type": "lesson"},
+        {"path": "patterns/structural/three_tier.py", "type": "reference_implementation"}
+      ]
+    }
+  ]
+}
