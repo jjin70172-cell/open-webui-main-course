@@ -23,6 +23,10 @@ course-tools/
 │   ├── tool-contract.md
 │   └── open-webui-integration.md
 ├── openwebui/                   # Open WebUI Function wrappers
+├── skills/
+│   └── course_practice_generator/ # Course-grounded Open WebUI Skill
+├── mcp/
+│   └── course_quiz_grader/       # Deterministic MCP Streamable HTTP server
 ├── scripts/
 │   └── validate_curriculum.py   # data validation script
 ├── src/course_tools/            # query implementation
@@ -94,3 +98,45 @@ path of this `course-tools` directory.
 
 The full input/output contract is documented in [docs/tool-contract.md](docs/tool-contract.md).
 
+## New course extensions
+
+### Extension 3: `course_practice_generator`
+
+Copy `skills/course_practice_generator/SKILL.md` into Open WebUI's **Workspace > Skills**.
+The Skill is intentionally grounded: it must call the existing
+`course_chapter_lookup` Function before composing a question and must stop with
+`课程资料中未找到/无法确认` when the chapter or evidence is unavailable. The
+read-only `validate_skill.py` helper can build and inspect the same verified
+context locally without turning `chapters.json` into a question bank.
+
+### Extension 4: `course_quiz_grader`
+
+`mcp/course_quiz_grader/server.py` is a real MCP Server and exposes
+`grade_quiz_answer`. Install the exact `mcp==1.27.2` dependency in its isolated
+environment and start it with Streamable HTTP:
+
+```powershell
+cd course-tools/mcp/course_quiz_grader
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe server.py --host 127.0.0.1 --port 8001 --path /mcp
+```
+
+The Open WebUI 0.11.0 source in this project accepts this server from **Admin
+Panel > Settings > Integrations > External Tool Servers**, with Type set to
+**MCP Streamable HTTP** and URL `http://127.0.0.1:8001/mcp`. It does not expose a
+command/stdio field for MCP. See the project-level
+`新增扩展接入说明.md` for the complete click-by-click setup and the local
+protocol smoke test.
+
+## Supplied checkout name note
+
+The supplied archive names the knowledge-base sibling directory
+`python-design-pattern-rag-main`, while the existing validation script's
+default is `python-design-pattern-rag`. The existing tool behavior is left
+unchanged. When validating this extracted copy, pass the actual checkout
+explicitly:
+
+```powershell
+python scripts/validate_curriculum.py --repo-root ..\python-design-pattern-rag-main
+```

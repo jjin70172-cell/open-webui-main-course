@@ -26,7 +26,19 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 CHAPTERS_PATH = DATA_DIR / "chapters.json"
 PREREQUISITES_PATH = DATA_DIR / "prerequisites.json"
-DEFAULT_REPO_ROOT = PROJECT_ROOT.parent / "python-design-pattern-rag"
+
+# The supplied archive uses the repository directory name
+# ``python-design-pattern-rag-main`` while a normal clone is commonly named
+# ``python-design-pattern-rag``. Prefer an existing checkout so the default
+# validation command works in both layouts without changing source checking.
+_REPO_ROOT_CANDIDATES = (
+    PROJECT_ROOT.parent / "python-design-pattern-rag",
+    PROJECT_ROOT.parent / "python-design-pattern-rag-main",
+)
+DEFAULT_REPO_ROOT = next(
+    (path for path in _REPO_ROOT_CANDIDATES if path.exists()),
+    _REPO_ROOT_CANDIDATES[0],
+)
 
 FORBIDDEN_FIELDS = {
     "options",
@@ -212,4 +224,3 @@ def main(argv=None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
